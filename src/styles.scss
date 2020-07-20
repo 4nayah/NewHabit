@@ -1,0 +1,211 @@
+* {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  margin:0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+
+  .App {
+    font-family: sans-serif;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.Auth_Container{
+  height:10%;
+  width:80%;
+  margin: 10px auto;
+}
+
+
+
+
+.Main_Calendar {
+  width: 100%;
+  height:20px;
+  
+  
+  .Calendar_Month_Selection {
+    margin-top: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 00px 0px;
+    text-decoration: none;
+    background-color: #333;
+    
+    p {
+      cursor: pointer;
+      font-size: 80%;
+      color:white;
+      
+    }
+    
+  }
+  
+  .Calendar_Header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    
+  }
+  .Headers {
+    width: 14%;
+  }
+  .Calendar_Days {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  .day {
+    width: 14%;
+    height: 100px;
+    cursor: pointer;
+    padding: 5px 5px 5px 4px;
+    box-sizing: border-box;
+    text-align: left;
+    transition: all 0.5s;
+    position: relative;
+    overflow: hidden;
+
+  }
+  
+  .day:hover {
+    transition: all 0.5s;
+  }
+  
+  .Calendar_Marker {
+    width: 100%;
+    height: 10px;
+    background-color: blue;
+    position: absolute;
+    left: 0;
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
+  }
+  
+  .onlyOne {
+    border-radius: 20px;
+    width: 80%;
+    margin-left: 10%;
+  }
+  
+  .firstDay {
+    background-color: blue;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    left: 20px;
+  }
+  
+  .lastDay {
+    background-color: blue;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    left: -20px;
+  }
+
+  button{
+    width:30%;
+  }
+}
+
+
+.list {
+  background-color: red;
+}
+
+.slide {
+  width: 100%;
+  background-color: white;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 50px;
+  position: fixed;
+  display: none;
+
+  
+}
+button{
+
+  height:50px;
+  width:90%;
+  border:none;
+  background-color:#333;
+  color:#fff;
+  cursor:pointer;
+  padding: 00px;
+
+
+}
+
+.main_container{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .NavBar{
+    width:100%;
+    height:15%;
+    background-color: #333
+
+}
+  
+  .form_container{
+    width:auto;
+    height:500px;
+
+    input,select{
+      height:50px;
+      width:90%;
+      border:none;
+
+    }
+
+    option{
+      padding: 5px 0px;
+      margin:5px 0px;
+
+      //font-family: Font Awesome\ 5 Free;
+      //font-size: 18px;
+      font-family: fontAwesome;
+      span{
+        color:black;
+      }
+    }
+
+    
+  }
+
+  ul{
+    margin-top: 10%;
+    li{
+      list-style-type: none;
+      margin: 0;
+      max-height: 50px;
+      
+      button{
+        width:50%;
+        background-color: #505050;
+      }
+      button:hover{
+        background-color: #505050;
+      }
+      .Button_Delete_Habit{
+        background-color: #333;
+        width:70px;
+      }
+    }
+  }
+
+}
+
+
