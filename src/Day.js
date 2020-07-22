@@ -10,12 +10,9 @@ export default function Day(props) {
   //const [array, setArray] = useState();
   const [firstDay, setFirstDay] = useState();
   const [lastDay, setLastDay] = useState();
-  const [nextDay, setNextDay] = useState("");
-  const [previousDay, setPreviousDay] = useState("");
   const [arrayMarked, setArrayMarked] = useState();
   const [endCombo, setEndCombo] = useState(false);
   const [startCombo, setStartCombo] = useState(false);
-  const [sort, setSort] = useState();
   const selected = useSelector(state => state.selected);
   const selectedArray = useSelector(state => state.selectedArray);
   const uid = useSelector(state => state.uid);
@@ -48,9 +45,8 @@ export default function Day(props) {
     .ref()
     .child("Users/" + uid + "/projects/");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dateRef.on("value", snapshot => {
-      //setData(snapshot.val());
       getDaysMarked(snapshot.val());
     });
   }, [selectedArray]);
@@ -67,29 +63,28 @@ export default function Day(props) {
     const sorting = Object.values(refArray).filter(
       item => item.name === props.month
     );
-    setSort(sorting);
     const setFirst = sorting.sort(function(a, b) {
       return a.jour - b.jour;
     });
 
+    const arrayModif = setArray.filter(item => item !== "0Juillet");
+
+    //console.log(setArray);
+    console.log(setArray);
+
     setArrayMarked(setArray);
 
-    if (sort != null && setArray > 1) {
+    if (sorting.length > 1 && firstDay !== sorting[0].id) {
       setFirstDay(sorting[0].id);
       setLastDay(sorting[sorting.length - 1].id);
     }
 
-    if (setArray.indexOf(nextDay) === -1) {
-      setEndCombo(true);
-    } else {
-      setEndCombo(false);
-    }
-    if (setArray.indexOf(previousDay) === -1) {
-      setStartCombo(true);
-    } else {
-      setStartCombo(false);
-    }
-    console.log(lastDay);
+    const endLine = (props.id + 1 + props.month).toString();
+    const startLine = (props.id - 1 + props.month).toString();
+    const findNext = setArray.indexOf(endLine);
+    const findPrev = setArray.indexOf(startLine);
+    setEndCombo(findNext);
+    setStartCombo(findPrev);
   };
 
   const isMarked = (id, month, task) => {
@@ -115,40 +110,7 @@ export default function Day(props) {
       DayRef.remove();
     }
   };
-  /*
-  useLayoutEffect(() => {
-    if (props.id < 10) {
-      const next = (parseInt(props.number) + 1 + props.month).toString();
-      const previous = (parseInt(props.number) - 1 + props.month).toString();
-      const zero = "0";
-      const concatnext = (zero + next).toString();
-      const concatprev = (zero + previous).toString();
-      setNextDay(concatnext);
-      setPreviousDay(concatprev);
-    }
-    if (props.id === 9) {
-      const next = (parseInt(props.number) + 1 + props.month).toString();
-      const previous = (parseInt(props.number) - 1 + props.month).toString();
-      const concatnext = next.toString();
-      const concatprev = previous.toString();
-      setNextDay(concatnext);
-      setPreviousDay(concatprev);
-    }
-    if (props.id === 10) {
-      const next = (parseInt(props.number) + 1 + props.month).toString();
-      const previous = (parseInt(props.number) - 1 + props.month).toString();
-      const concatnext = next.toString();
-      const concatprev = previous.toString();
-      setNextDay(concatnext);
-      setPreviousDay(concatprev);
-    } else {
-      const next = (parseInt(props.number) + 1 + props.month).toString();
-      const previous = (parseInt(props.number) - 1 + props.month).toString();
-      setNextDay(next);
-      setPreviousDay(previous);
-    }
-  }, [arrayMarked]);
-*/
+
   return (
     <div className="day" onClick={() => isMarked(props.id, props.month)}>
       {props.id + props.month === jour + months[mois]
@@ -160,12 +122,13 @@ export default function Day(props) {
           <div
             style={{ backgroundColor: props.color }}
             className={
-              arrayMarked.length === 1 ||
-              (startCombo === true && endCombo === true)
+              startCombo === -1 && endCombo === -1
                 ? "Calendar_Marker onlyOne"
-                : firstDay === props.value || startCombo === true
+                : firstDay === (props.id + props.month).toString() ||
+                  startCombo === -1
                 ? "Calendar_Marker firstDay"
-                : lastDay === props.value || endCombo === true
+                : lastDay === (props.id + props.month).toString() ||
+                  endCombo === -1
                 ? "Calendar_Marker lastDay"
                 : "Calendar_Marker"
             }

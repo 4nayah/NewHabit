@@ -13,10 +13,8 @@ export default function Main() {
   const [list, setList] = useState([]);
   const [project, setProject] = useState([]);
   const dispatch = useDispatch();
-  const array2 = useSelector(state => state.array2);
   const selectedArray = useSelector(state => state.selectedArray);
   const uid = useSelector(state => state.uid);
-  const [data, setData] = useState([]);
   const [selected, setSelected] = useState([]);
   if (!firebase.apps.length) {
     firebase.initializeApp(config);
@@ -31,50 +29,13 @@ export default function Main() {
     .database()
     .ref()
     .child("Users/" + uid + "/projects/" + selectedArray.id);
-
-  /*
-
-
-  useEffect(() => {
-    dateRef.on("value", snapshot => {
-      //setData(snapshot.val());
-
-      if (snapshot.val()) {
-        const truc = Object.entries(snapshot.val());
-        const arrayTruc = truc.map(item => item[1]);
-        const mappedTruc = arrayTruc[1];
-        const tri = Object.entries(mappedTruc);
-        const mapping = tri.map(item => item[1]);
-        const arrayMap = mapping.map(item => item);
-        setData(arrayMap);
-      }
-    });
-  });
-*/
-
   useEffect(() => {
     rootRef.on("value", snapshot => {
-      if (Object.keys(snapshot.val().projects).length > 0) {
+      if (snapshot.val()) {
         const truc = Object.entries(snapshot.val().projects);
         const arrayTruc = truc.map(item => item);
         setProject(arrayTruc);
       }
-
-      /*
-      dateRef.on("value", snapshot => {
-        //setData(snapshot.val());
-
-        if (snapshot.val()) {
-          const truc = Object.entries(snapshot.val());
-          const arrayTruc = truc.map(item => item[1]);
-          const mappedTruc = arrayTruc[1];
-          const tri = Object.entries(mappedTruc);
-          const mapping = tri.map(item => item[1]);
-          const arrayMap = mapping.map(item => item);
-          setData(arrayMap);
-          console.log(arrayMap);
-        }
-      });*/
     });
   }, []);
 
@@ -82,11 +43,7 @@ export default function Main() {
     event.preventDefault();
     const id = new Date().getTime();
     setList([...list, { id: id, task: habit, color: color }]);
-    /*
-    dispatch({
-      type: "CREATE_TASK",
-      payload: { id: id, project: habit, color: color }
-    });*/
+
     setHabit("");
 
     firebase
@@ -96,10 +53,10 @@ export default function Main() {
         project_name: habit,
         color: color,
         doneDays: {
-          Day: {
-            id: "01Day",
-            jour: "jourDeLaSemaine",
-            name: "moisDelAnnée",
+          "-1Juillet": {
+            id: "0Juillet",
+            jour: "-1",
+            name: "Juillet",
             project: id
           }
         },
@@ -108,11 +65,13 @@ export default function Main() {
   };
   /**/
   const deleteTask = id => {
-    const projectRef = firebase
-      .database()
-      .ref()
-      .child("Users/" + uid + "/projects/" + id);
-    projectRef.remove();
+    if (project.length > 1) {
+      const projectRef = firebase
+        .database()
+        .ref()
+        .child("Users/" + uid + "/projects/" + id);
+      projectRef.remove();
+    }
   };
 
   const changeTask = task => {

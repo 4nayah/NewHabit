@@ -84,20 +84,6 @@ export default function Calendar() {
     setGOffset(filterOffset);
   };
 
-  const setToday = () => {
-    const id = jour;
-    const month = months[mois].value;
-    const idDay = jour + month;
-    if (arrayMarked.indexOf(idDay) === -1) {
-      dispatch({
-        type: "ADD_DAY",
-        payload: {
-          new: { jour: id, name: month, id: idDay, project: selectedArray.id }
-        }
-      });
-    }
-  };
-
   useEffect(() => {
     if (!index.value) {
       const getMonth = months.filter(
@@ -123,7 +109,6 @@ export default function Calendar() {
         Vous avez pris l'habitude de {selectedArray.project} depuis
         {" " + from.length} jours
       </p>
-      <button onClick={() => setToday()}>I did it</button>
       <button onClick={() => getDays(months[mois].value)}>Today</button>
       <div className="Calendar_Month_Selection">
         {months.map(month => (
